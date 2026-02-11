@@ -92,7 +92,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Stat Cards */}
+      {/* Stat Card */}
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard title="Total Posts" value={data.postCount} />
         <StatCard title="Categories" value={data.categoryCount} />
