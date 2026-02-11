@@ -1,6 +1,6 @@
 ---
 import { urlFor } from "../../lib/sanity";
-import { formatDate } from "../../lib/utils";
+import { formatDate, getCategoryColors } from "../../lib/utils";
 
 interface Props {
   post: {
@@ -16,6 +16,7 @@ interface Props {
     categories?: Array<{
       title: string;
       slug: { current: string };
+      color?: string;
     }>;
   };
   featured?: boolean;
@@ -48,14 +49,21 @@ const { post, featured = false } = Astro.props;
   ]}>
     {post.categories && post.categories.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-3">
-        {post.categories.map((category) => (
-          <a
-            href={`/categories/${category.slug.current}`}
-            class="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-          >
-            {category.title}
-          </a>
-        ))}
+        {post.categories.map((category) => {
+          const colors = getCategoryColors(category.color);
+          return (
+            <a
+              href={`/categories/${category.slug.current}`}
+              class:list={[
+                "text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full transition-colors",
+                !colors && "bg-primary/10 text-primary hover:bg-primary/20"
+              ]}
+              style={colors ? `background-color: ${colors.bg}; color: ${colors.text};` : undefined}
+            >
+              {category.title}
+            </a>
+          );
+        })}
       </div>
     )}
 

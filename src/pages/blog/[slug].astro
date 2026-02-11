@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import PortableText from "../../components/blog/PortableText";
 import { getPosts, getPost, urlFor } from "../../lib/sanity";
-import { formatDate, calculateReadingTime } from "../../lib/utils";
+import { formatDate, calculateReadingTime, getCategoryColors } from "../../lib/utils";
 import type { PortableTextBlock } from "@portabletext/types";
 
 export async function getStaticPaths() {
@@ -88,14 +88,21 @@ const breadcrumbData = {
 
       {post.categories && post.categories.length > 0 && (
         <div class="flex flex-wrap gap-2 mb-4">
-          {post.categories.map((category: any) => (
-            <a
-              href={`/categories/${category.slug.current}`}
-              class="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-            >
-              {category.title}
-            </a>
-          ))}
+          {post.categories.map((category: any) => {
+            const colors = getCategoryColors(category.color);
+            return (
+              <a
+                href={`/categories/${category.slug.current}`}
+                class:list={[
+                  "text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full transition-colors",
+                  !colors && "bg-primary/10 text-primary hover:bg-primary/20"
+                ]}
+                style={colors ? `background-color: ${colors.bg}; color: ${colors.text};` : undefined}
+              >
+                {category.title}
+              </a>
+            );
+          })}
         </div>
       )}
 

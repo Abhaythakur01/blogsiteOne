@@ -15,7 +15,7 @@ interface Props {
 
 const {
   title,
-  description = "Your company blog - insights, updates, and stories",
+  description = "Unicalibre Blog - insights, updates, and stories",
   ogImage = "/og-default.jpg",
   canonicalUrl = Astro.url.href,
   type = "website",
@@ -23,7 +23,7 @@ const {
   author,
 } = Astro.props;
 
-const siteName = "Company Blog";
+const siteName = "Unicalibre Blog";
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 ---
 

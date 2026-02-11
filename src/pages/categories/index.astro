@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCategories, sanityClient } from "../../lib/sanity";
+import { getCategoryColors } from "../../lib/utils";
 
 const categories = await getCategories();
 
@@ -36,7 +37,9 @@ const categoriesWithCount = await Promise.all(
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     {categoriesWithCount.length > 0 ? (
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categoriesWithCount.map((category) => (
+        {categoriesWithCount.map((category) => {
+          const colors = getCategoryColors(category.color);
+          return (
           <a
             href={`/categories/${category.slug.current}`}
             class="group bg-white p-8 rounded-xl border border-slate-100 shadow-sm hover:border-primary/20 hover:shadow-md transition-all"
@@ -45,7 +48,13 @@ const categoriesWithCount = await Promise.all(
               <h2 class="text-xl font-heading font-bold text-slate-900 group-hover:text-primary transition-colors">
                 {category.title}
               </h2>
-              <span class="bg-primary/10 text-primary text-sm font-semibold rounded-full px-3 py-1">
+              <span
+                class:list={[
+                  "text-sm font-semibold rounded-full px-3 py-1",
+                  !colors && "bg-primary/10 text-primary"
+                ]}
+                style={colors ? `background-color: ${colors.bg}; color: ${colors.text};` : undefined}
+              >
                 {category.postCount}
               </span>
             </div>
@@ -55,7 +64,8 @@ const categoriesWithCount = await Promise.all(
               </p>
             )}
           </a>
-        ))}
+          );
+        })}
       </div>
     ) : (
       <div class="text-center py-16">

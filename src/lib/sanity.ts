@@ -31,7 +31,8 @@ export async function getPosts() {
       },
       "categories": categories[]->{
         title,
-        slug
+        slug,
+        color
       }
     }
   `);
@@ -56,7 +57,8 @@ export async function getPost(slug: string) {
       },
       "categories": categories[]->{
         title,
-        slug
+        slug,
+        color
       }
     }
   `,
@@ -71,7 +73,8 @@ export async function getCategories() {
       _id,
       title,
       slug,
-      description
+      description,
+      color
     }
   `);
 }
@@ -93,7 +96,8 @@ export async function getPostsByCategory(categorySlug: string) {
       },
       "categories": categories[]->{
         title,
-        slug
+        slug,
+        color
       }
     }
   `,
@@ -147,7 +151,8 @@ export async function getPostsByAuthor(authorSlug: string) {
       },
       "categories": categories[]->{
         title,
-        slug
+        slug,
+        color
       }
     }
   `,

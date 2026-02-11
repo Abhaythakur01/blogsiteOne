@@ -1,6 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import AdminDashboard from "../../components/admin/AdminDashboard";
+
+const adminPassHash = import.meta.env.ADMIN_PASS_HASH || "1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032";
 ---
 
 <Layout title="Admin Dashboard">
@@ -37,7 +39,7 @@ import AdminDashboard from "../../components/admin/AdminDashboard";
   </div>
 
   <!-- Admin Dashboard (hidden until authenticated) -->
-  <div id="admin-content" class="hidden mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+  <div id="admin-content" class="hidden mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8" data-pass-hash={adminPassHash}>
     <div class="mb-8 flex items-center justify-between">
       <h1 class="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
       <a
@@ -57,7 +59,7 @@ import AdminDashboard from "../../components/admin/AdminDashboard";
 </Layout>
 
 <script>
-  const PASS_HASH = "1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032"; // sha-256 of "letmein"
+  const PASS_HASH = document.getElementById("admin-content")!.dataset.passHash!;
   const AUTH_KEY = "admin_authed";
 
   async function sha256(text: string): Promise<string> {

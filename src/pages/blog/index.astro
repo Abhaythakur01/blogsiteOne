@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import BlogCard from "../../components/blog/BlogCard.astro";
 import { getPosts, getCategories } from "../../lib/sanity";
+import { getCategoryColors } from "../../lib/utils";
 
 const posts = await getPosts();
 const categories = await getCategories();
@@ -34,14 +35,21 @@ const categories = await getCategories();
         >
           All
         </a>
-        {categories.map((category) => (
-          <a
-            href={`/categories/${category.slug.current}`}
-            class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 font-medium hover:border-primary/40 hover:text-primary transition-colors"
-          >
-            {category.title}
-          </a>
-        ))}
+        {categories.map((category: any) => {
+          const colors = getCategoryColors(category.color);
+          return (
+            <a
+              href={`/categories/${category.slug.current}`}
+              class:list={[
+                "px-4 py-2 rounded-full font-medium transition-colors",
+                !colors && "bg-white border border-slate-200 text-slate-600 hover:border-primary/40 hover:text-primary"
+              ]}
+              style={colors ? `background-color: ${colors.bg}; color: ${colors.text}; border: 1px solid ${colors.bg};` : undefined}
+            >
+              {category.title}
+            </a>
+          );
+        })}
       </div>
     )}
 

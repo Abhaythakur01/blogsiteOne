@@ -1,0 +1,30 @@
+---
+import StudioPage from "../../components/studio/StudioPage";
+
+export function getStaticPaths() {
+  // Catch-all route: renders /studio, /studio/desk, /studio/vision, etc.
+  // Sanity Studio handles its own client-side routing
+  return [
+    { params: { index: undefined } },
+    { params: { index: "desk" } },
+    { params: { index: "vision" } },
+    { params: { index: "structure" } },
+  ];
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="same-origin" />
+    <meta name="robots" content="noindex" />
+    <title>Blog CMS — Studio</title>
+    <style>
+      html, body { height: 100%; margin: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <StudioPage client:only="react" />
+  </body>
+</html>
