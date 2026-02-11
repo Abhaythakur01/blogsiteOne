@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /studio/
 
 Sitemap: https://astro-blog-five-zeta.vercel.app/sitemap-index.xml

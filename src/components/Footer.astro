@@ -22,7 +22,7 @@ const socialLinks = [
 ];
 ---
 
-<footer class="bg-slate-50 border-t border-slate-200 pt-16 pb-8">
+<footer class="bg-slate-50 border-t border-slate-200 pt-16 pb-8" role="contentinfo">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
       <!-- Brand -->
@@ -36,13 +36,15 @@ const socialLinks = [
           Insights, updates, and stories from our team.
         </p>
         <!-- Social Links -->
-        <div class="flex items-center gap-3 mt-5">
+        <div class="flex items-center gap-3 mt-5" role="list" aria-label="Social media links">
           {socialLinks.map((link) => (
             <a
               href={link.href}
               class="text-slate-400 hover:text-primary transition-colors"
               target="_blank"
               rel="noopener noreferrer"
+              title={`Follow us on ${link.name}`}
+              role="listitem"
             >
               <span class="sr-only">{link.name}</span>
               {link.icon === "twitter" && (
@@ -61,7 +63,7 @@ const socialLinks = [
       </div>
 
       <!-- Company Links -->
-      <div>
+      <nav aria-label="Company links">
         <h3 class="text-sm font-semibold text-slate-900 mb-4">Company</h3>
         <ul class="space-y-3">
           {footerLinks.company.map((link) => (
@@ -72,10 +74,10 @@ const socialLinks = [
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
 
       <!-- Resources Links -->
-      <div>
+      <nav aria-label="Resources links">
         <h3 class="text-sm font-semibold text-slate-900 mb-4">Resources</h3>
         <ul class="space-y-3">
           {footerLinks.resources.map((link) => (
@@ -86,10 +88,10 @@ const socialLinks = [
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
 
       <!-- Legal Links -->
-      <div>
+      <nav aria-label="Legal links">
         <h3 class="text-sm font-semibold text-slate-900 mb-4">Legal</h3>
         <ul class="space-y-3">
           {footerLinks.legal.map((link) => (
@@ -100,7 +102,7 @@ const socialLinks = [
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
     </div>
 
     <!-- Bottom -->
