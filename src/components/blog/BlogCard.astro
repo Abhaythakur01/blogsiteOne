@@ -1,0 +1,93 @@
+---
+import { urlFor } from "../../lib/sanity";
+import { formatDate } from "../../lib/utils";
+
+interface Props {
+  post: {
+    title: string;
+    slug: { current: string };
+    excerpt?: string;
+    publishedAt: string;
+    mainImage?: any;
+    author?: {
+      name: string;
+      image?: any;
+    };
+    categories?: Array<{
+      title: string;
+      slug: { current: string };
+    }>;
+  };
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+---
+
+<article class:list={[
+  "group bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:border-primary/20",
+  featured ? "md:grid md:grid-cols-2" : ""
+]}>
+  {post.mainImage && (
+    <a href={`/blog/${post.slug.current}`} class="block overflow-hidden">
+      <img
+        src={urlFor(post.mainImage).width(featured ? 800 : 600).height(featured ? 500 : 400).url()}
+        alt={post.mainImage.alt || post.title}
+        class:list={[
+          "w-full object-cover transition-transform duration-500 group-hover:scale-105",
+          featured ? "h-64 md:h-full" : "h-48"
+        ]}
+        loading="lazy"
+      />
+    </a>
+  )}
+
+  <div class:list={[
+    "p-6",
+    featured ? "flex flex-col justify-center" : ""
+  ]}>
+    {post.categories && post.categories.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-3">
+        {post.categories.map((category) => (
+          <a
+            href={`/categories/${category.slug.current}`}
+            class="text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+          >
+            {category.title}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <a href={`/blog/${post.slug.current}`} class="block">
+      <h3 class:list={[
+        "font-heading font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors",
+        featured ? "text-2xl" : "text-xl"
+      ]}>
+        {post.title}
+      </h3>
+    </a>
+
+    {post.excerpt && (
+      <p class="text-slate-600 leading-relaxed line-clamp-2 mb-4">
+        {post.excerpt}
+      </p>
+    )}
+
+    <div class="flex items-center justify-between text-sm border-t border-slate-100 pt-4">
+      <div class="flex items-center gap-2">
+        {post.author?.image && (
+          <img
+            src={urlFor(post.author.image).width(32).height(32).url()}
+            alt={post.author.name}
+            class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-100"
+          />
+        )}
+        <span class="font-medium text-slate-700">{post.author?.name}</span>
+      </div>
+      <time datetime={post.publishedAt} class="text-slate-500">
+        {formatDate(post.publishedAt)}
+      </time>
+    </div>
+  </div>
+</article>

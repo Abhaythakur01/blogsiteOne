@@ -1,0 +1,94 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BlogCard from "../components/blog/BlogCard.astro";
+import { getPosts } from "../lib/sanity";
+
+const posts = await getPosts();
+const featuredPost = posts[0];
+const recentPosts = posts.slice(1, 7);
+---
+
+<Layout title="Company Blog">
+  <!-- Hero Section -->
+  <section class="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden tech-grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-primary font-semibold uppercase tracking-wider mb-4">Insights & Knowledge</p>
+      <h1 class="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-slate-900 mb-6 text-balance">
+        Stories, Ideas &<br />
+        <span class="text-primary">Expert Insights</span>
+      </h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-10">
+        Discover the latest insights, industry trends, and company updates from our team of experts.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/blog"
+          class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-lg"
+        >
+          Read the Blog
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center justify-center px-8 py-3.5 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+        >
+          About Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Post -->
+  {featuredPost && (
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-slate-400 font-semibold uppercase tracking-wider text-sm mb-2">Featured</p>
+        <h2 class="text-3xl font-bold text-slate-900 mb-8">Latest Highlight</h2>
+        <BlogCard post={featuredPost} featured={true} />
+      </div>
+    </section>
+  )}
+
+  <!-- Recent Posts -->
+  {recentPosts.length > 0 && (
+    <section class="py-24 bg-slate-50 tech-grid-bg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-10">
+          <h2 class="text-3xl font-bold text-slate-900">Recent Posts</h2>
+          <a href="/blog" class="text-primary hover:text-primary/80 font-semibold transition-colors">
+            View all posts &rarr;
+          </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {recentPosts.map((post) => (
+            <BlogCard post={post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Newsletter CTA -->
+  <section class="py-24 bg-primary text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Stay Updated</h2>
+      <p class="text-primary-foreground/90 mb-10 max-w-xl mx-auto text-lg">
+        Subscribe to our newsletter and never miss an update. Get the latest insights delivered directly to your inbox.
+      </p>
+      <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        <input
+          type="email"
+          placeholder="Enter your email"
+          class="flex-1 px-4 py-3.5 rounded-lg bg-white text-slate-900 shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
+          required
+        />
+        <button
+          type="submit"
+          class="px-8 py-3.5 bg-white text-primary font-bold rounded-lg shadow-2xl hover:bg-slate-50 transition-colors"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+</Layout>

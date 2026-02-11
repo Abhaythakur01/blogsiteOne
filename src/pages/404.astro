@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Page Not Found">
+  <section class="relative py-32 text-center overflow-hidden tech-grid-bg">
+    <div class="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-8xl font-heading font-bold text-primary mb-4">404</h1>
+      <h2 class="text-2xl font-heading font-bold text-slate-900 mb-4">Page Not Found</h2>
+      <p class="text-slate-600 mb-8 max-w-md mx-auto">
+        Sorry, we couldn't find the page you're looking for. It might have been moved or deleted.
+      </p>
+      <div class="flex gap-4 justify-center">
+        <a
+          href="/"
+          class="px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg shadow-lg hover:bg-primary/90 transition-colors"
+        >
+          Go Home
+        </a>
+        <a
+          href="/blog"
+          class="px-6 py-3 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+        >
+          Browse Blog
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
