@@ -26,8 +26,7 @@ const {
 const siteName = "Unicalibre Estimating";
 const siteUrl = Astro.site?.href || "https://astro-blog-five-zeta.vercel.app";
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
-const hasOgImage = ogImage !== "/og-default.jpg";
-const resolvedOgImage = hasOgImage ? new URL(ogImage, Astro.site).href : undefined;
+const resolvedOgImage = new URL(ogImage, Astro.site).href;
 ---
 
 <!doctype html>
@@ -40,6 +39,8 @@ const resolvedOgImage = hasOgImage ? new URL(ogImage, Astro.site).href : undefin
     <meta name="author" content="Unicalibre" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Primary Meta Tags -->
@@ -47,6 +48,7 @@ const resolvedOgImage = hasOgImage ? new URL(ogImage, Astro.site).href : undefin
     <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={canonicalUrl} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:locale" content="en_US" />
@@ -54,18 +56,18 @@ const resolvedOgImage = hasOgImage ? new URL(ogImage, Astro.site).href : undefin
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
-    {resolvedOgImage && <meta property="og:image:width" content="1200" />}
-    {resolvedOgImage && <meta property="og:image:height" content="630" />}
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content={siteName} />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content={resolvedOgImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@unicalibre" />
     <meta name="twitter:url" content={canonicalUrl} />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
+    <meta name="twitter:image" content={resolvedOgImage} />
 
     <!-- Article specific -->
     {type === "article" && publishedTime && (
@@ -75,13 +77,26 @@ const resolvedOgImage = hasOgImage ? new URL(ogImage, Astro.site).href : undefin
       <meta property="article:author" content={author} />
     )}
 
-    <!-- Fonts -->
+    <!-- Fonts (async loading to avoid render-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -100,7 +115,7 @@ const resolvedOgImage = hasOgImage ? new URL(ogImage, Astro.site).href : undefin
       ...(type === "article" && {
         "headline": title,
         "description": description,
-        ...(resolvedOgImage && { "image": resolvedOgImage }),
+        "image": resolvedOgImage,
         "datePublished": publishedTime,
         "publisher": {
           "@type": "Organization",

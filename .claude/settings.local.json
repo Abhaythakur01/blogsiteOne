@@ -3,7 +3,16 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(python:*)",
+      "Bash(findstr:*)",
+      "WebFetch(domain:www.seoptimer.com)",
+      "Bash(npx pdf-parse:*)",
+      "Bash(node -e \"\nconst fs = require\\(''fs''\\);\nconst pdf = require\\(''pdf-parse''\\);\nconst buf = fs.readFileSync\\(String.raw\\\\`D:\\\\Downloads\\\\SEO Audit for astro-blog-five-zeta.vercel.app - SEOptimer.pdf\\\\`\\);\npdf\\(buf\\).then\\(d => console.log\\(d.text\\)\\).catch\\(e => console.error\\(e\\)\\);\n\")",
+      "Bash(node -e:*)",
+      "WebFetch(domain:astro-blog-five-zeta.vercel.app)",
+      "Bash(dir:*)",
+      "Bash(npm ls:*)"
     ]
   }
 }

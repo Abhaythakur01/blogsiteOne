@@ -34,18 +34,20 @@ function isActive(href: string): boolean {
                     ? "text-primary font-semibold"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                 ]}
+                aria-haspopup="true"
+                aria-expanded="false"
               >
                 {item.label}
                 <svg class="w-3.5 h-3.5 opacity-60 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/></svg>
               </a>
               <!-- Dropdown -->
-              <div class="invisible group-hover:visible group-focus-within:visible opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-200 absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
+              <div class="invisible group-hover:visible group-focus-within:visible opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-200 absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50" role="menu">
                 <div class="bg-white border border-slate-200 rounded-lg shadow-lg p-4 min-w-[280px]">
                   {item.label === "Services" ? (
                     <ul class="grid grid-cols-2 gap-1">
                       {item.children.map((child) => (
-                        <li>
-                          <a href={child.href} class="block px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors">
+                        <li role="none">
+                          <a href={child.href} class="block px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors" role="menuitem">
                             {child.label}
                           </a>
                         </li>
@@ -54,8 +56,8 @@ function isActive(href: string): boolean {
                   ) : (
                     <ul class="space-y-1">
                       {item.children.map((child) => (
-                        <li>
-                          <a href={child.href} class="block px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors">
+                        <li role="none">
+                          <a href={child.href} class="block px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-primary transition-colors" role="menuitem">
                             {child.label}
                           </a>
                         </li>

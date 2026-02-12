@@ -14,7 +14,12 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/admin') && !page.includes('/studio'),
+    }),
+  ],
 
   // SSG by default - pages are pre-rendered at build time
   output: 'static',
