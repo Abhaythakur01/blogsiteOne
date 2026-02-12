@@ -1,0 +1,191 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { LiteEmbed } from "../components/react/LiteEmbed";
+import { getPosts } from "../lib/sanity";
+import { CASE_STUDIES, FAQS } from "../data/constants";
+
+const posts = await getPosts();
+const latestPosts = posts.slice(0, 3);
+---
+
+<Layout
+  title="Resources & Insights"
+  description="Sharpen your estimating skills with video tutorials, blog articles, case studies, and FAQs. Learn from Unicalibre's proven track record."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": FAQS.map((faq) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.a
+        }
+      }))
+    })} />
+  </Fragment>
+
+  <div class="py-24 bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-slate-900 mb-4">Resources & Insights</h1>
+        <p class="text-xl text-slate-600">Sharpen your estimating skills and learn from our proven track record.</p>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="flex justify-center mb-12">
+        <div class="grid w-full max-w-2xl grid-cols-4 bg-muted rounded-lg p-1">
+          <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors" data-tab="video" aria-selected="true">Video Library</button>
+          <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors text-muted-foreground" data-tab="blog">Blogs</button>
+          <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors text-muted-foreground" data-tab="cases">Case Studies</button>
+          <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors text-muted-foreground" data-tab="faqs">FAQs</button>
+        </div>
+      </div>
+
+      <!-- VIDEO TAB -->
+      <div class="tab-panel" id="tab-video">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div class="space-y-4">
+              <LiteEmbed client:visible title={`Mastering Takeoffs Lesson ${i}`} />
+              <div>
+                <span class="inline-block text-xs font-medium bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full mb-2">Tutorial</span>
+                <h3 class="font-bold text-lg text-slate-900">How to Calculate Waste Factors Correctly</h3>
+                <p class="text-sm text-slate-500 mt-1">10 min watch</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- BLOG TAB -->
+      <div class="tab-panel hidden" id="tab-blog">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {latestPosts.length > 0 ? (
+            latestPosts.map((post: any) => (
+              <a href={`/blog/${post.slug.current}`} class="block bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-slate-200"></div>
+                <div class="p-6">
+                  <span class="inline-block text-xs font-semibold bg-primary/10 text-primary px-2.5 py-1 rounded-full mb-3">Blog</span>
+                  <h3 class="text-lg font-bold text-slate-900 line-clamp-2 mb-2">{post.title}</h3>
+                  {post.excerpt && <p class="text-slate-600 text-sm line-clamp-3 mb-4">{post.excerpt}</p>}
+                  <span class="text-primary font-bold text-sm">Read Article &rarr;</span>
+                </div>
+              </a>
+            ))
+          ) : (
+            [1, 2, 3].map((_i) => (
+              <div class="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-slate-200"></div>
+                <div class="p-6">
+                  <span class="inline-block text-xs font-semibold bg-primary/10 text-primary px-2.5 py-1 rounded-full mb-3">Industry Insights</span>
+                  <h3 class="text-lg font-bold text-slate-900 line-clamp-2 mb-2">5 Common Mistakes in Commercial Flooring Estimates</h3>
+                  <p class="text-slate-600 text-sm line-clamp-3 mb-4">
+                    Learn why relying on general waste factors can kill your profitability and how to spot scope gaps before they become change orders.
+                  </p>
+                  <span class="text-primary font-bold text-sm">Read Article &rarr;</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        <div class="text-center mt-8">
+          <a href="/blog" class="inline-flex items-center text-primary font-semibold hover:text-primary/80 transition-colors">
+            View all blog posts &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- CASE STUDIES TAB -->
+      <div class="tab-panel hidden" id="tab-cases">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {CASE_STUDIES.map((study) => (
+            <div class="bg-white p-6 rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+              <span class="inline-block text-xs font-medium border border-slate-200 text-slate-600 px-2.5 py-1 rounded-full mb-4">{study.trade}</span>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">{study.title}</h3>
+              <p class="text-slate-500 text-sm mb-6">{study.location}</p>
+              <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                <div>
+                  <p class="text-xs text-slate-500 uppercase font-semibold">Value</p>
+                  <p class="text-lg font-bold text-primary">{study.stats.value}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 uppercase font-semibold">Saved</p>
+                  <p class="text-lg font-bold text-slate-700">{study.stats.timeSaved}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- FAQS TAB -->
+      <div class="tab-panel hidden" id="tab-faqs">
+        <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-8">
+            <svg class="w-8 h-8 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            <h2 class="text-2xl font-bold text-slate-900">Frequently Asked Questions</h2>
+          </div>
+          <div class="space-y-0 divide-y divide-slate-200">
+            {FAQS.map((faq) => (
+              <details class="group py-4">
+                <summary class="flex cursor-pointer items-center justify-between font-semibold text-slate-800 hover:text-primary transition-colors">
+                  {faq.q}
+                  <svg class="w-5 h-5 shrink-0 ml-4 transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <p class="mt-3 text-slate-600 leading-relaxed">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+          <div class="mt-12 p-6 bg-slate-50 rounded-xl text-center">
+            <p class="text-slate-600 mb-4">Have a more specific question?</p>
+            <a href="/contact" class="inline-flex items-center justify-center h-10 px-8 rounded-md text-sm font-medium border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors">
+              Contact Our Team
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function initTabs() {
+      const buttons = document.querySelectorAll('.tab-btn');
+      const panels = document.querySelectorAll('.tab-panel');
+
+      function activateTab(tabId: string) {
+        buttons.forEach(btn => {
+          const isActive = btn.getAttribute('data-tab') === tabId;
+          btn.setAttribute('aria-selected', isActive.toString());
+          btn.classList.toggle('bg-background', isActive);
+          btn.classList.toggle('shadow-sm', isActive);
+          btn.classList.toggle('text-foreground', isActive);
+          btn.classList.toggle('text-muted-foreground', !isActive);
+        });
+        panels.forEach(panel => {
+          panel.classList.toggle('hidden', panel.id !== `tab-${tabId}`);
+        });
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-tab')!;
+          activateTab(tab);
+          history.replaceState(null, '', `#${tab}`);
+        });
+      });
+
+      // Hash support
+      const hash = window.location.hash.slice(1);
+      if (hash && ['video', 'blog', 'cases', 'faqs'].includes(hash)) {
+        activateTab(hash);
+      } else {
+        activateTab('video');
+      }
+    }
+
+    initTabs();
+  </script>
+</Layout>

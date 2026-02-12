@@ -1,0 +1,28 @@
+---
+import { SERVICES_CONTENT } from "../../data/constants";
+
+interface Props {
+  activeSlug?: string;
+}
+
+const { activeSlug } = Astro.props;
+---
+
+<aside class="w-full lg:w-64 shrink-0">
+  <nav aria-label="Services navigation" class="space-y-2">
+    <h3 class="font-bold text-slate-900 mb-4 px-3">Services</h3>
+    {Object.entries(SERVICES_CONTENT).map(([slug, service]: [string, any]) => (
+      <a
+        href={`/services/${slug}`}
+        class:list={[
+          "block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors",
+          activeSlug === slug
+            ? "bg-primary text-white"
+            : "text-slate-600 hover:bg-slate-100"
+        ]}
+      >
+        {service.title.replace(" Services", "")}
+      </a>
+    ))}
+  </nav>
+</aside>

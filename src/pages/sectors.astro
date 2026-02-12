@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SECTORS_DATA } from "../data/constants";
+
+const sectorIcons = [
+  // Residential - Home icon
+  `<svg class="w-12 h-12 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  // Commercial - Building icon
+  `<svg class="w-12 h-12 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>`,
+  // Institutional - GraduationCap icon
+  `<svg class="w-12 h-12 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+];
+---
+
+<Layout
+  title="Sectors We Serve"
+  description="Specialized estimating experience across residential, commercial, and institutional construction sectors. Accurate takeoffs for every project type."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Construction Sectors Served by Unicalibre",
+      "itemListElement": SECTORS_DATA.map((sector, idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "name": sector.title,
+        "description": sector.description
+      }))
+    })} />
+  </Fragment>
+
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-slate-900 mb-4">Sectors We Serve</h1>
+        <p class="text-xl text-slate-600">Specialized experience across all major construction sectors.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {SECTORS_DATA.map((sector, idx) => (
+          <div class="flex flex-col h-full bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="p-8 pb-0">
+              <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6">
+                <Fragment set:html={sectorIcons[idx]} />
+              </div>
+              <h2 class="text-2xl font-bold text-slate-900 mb-4">{sector.title}</h2>
+              <p class="text-slate-600 mb-8 leading-relaxed">{sector.description}</p>
+            </div>
+            <div class="mt-auto bg-white p-8 border-t border-slate-100">
+              <h4 class="font-semibold text-slate-900 mb-4 text-sm uppercase tracking-wide">Project Types</h4>
+              <ul class="space-y-2">
+                {sector.projects.map((project: string) => (
+                  <li class="text-slate-600 text-sm flex items-center">
+                    <span class="w-1.5 h-1.5 bg-primary rounded-full mr-3 shrink-0"></span>
+                    {project}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

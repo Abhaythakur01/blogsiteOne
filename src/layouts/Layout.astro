@@ -15,7 +15,7 @@ interface Props {
 
 const {
   title,
-  description = "Unicalibre Blog offers expert insights, the latest stories, and practical guides. Explore categories on estimating, construction, and business growth.",
+  description = "Professional quantity takeoff services for flooring, countertops, cabinets, drywall, painting, and landscaping. Accurate estimates that help contractors win more work.",
   ogImage = "/og-default.jpg",
   canonicalUrl = Astro.url.href,
   type = "website",
@@ -23,7 +23,7 @@ const {
   author,
 } = Astro.props;
 
-const siteName = "Unicalibre Blog";
+const siteName = "Unicalibre Estimating";
 const siteUrl = Astro.site?.href || "https://astro-blog-five-zeta.vercel.app";
 const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 const hasOgImage = ogImage !== "/og-default.jpg";

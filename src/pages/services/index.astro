@@ -1,0 +1,55 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ServiceSidebar from "../../components/services/ServiceSidebar.astro";
+import { SERVICES_CONTENT } from "../../data/constants";
+---
+
+<Layout
+  title="Estimating Services That Help You Win More Work"
+  description="Professional quantity takeoff services for flooring, cabinets, countertops, drywall, painting, landscaping, and general contractors. Accurate estimates delivered on time."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Unicalibre Estimating Services",
+      "itemListElement": Object.entries(SERVICES_CONTENT).map(([slug, service]: [string, any], idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "name": service.title,
+        "url": new URL(`/services/${slug}`, Astro.site).href
+      }))
+    })} />
+  </Fragment>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
+    <div class="flex flex-col lg:flex-row gap-12">
+      <ServiceSidebar />
+
+      <div class="flex-1 space-y-12">
+        <div>
+          <h1 class="text-4xl font-bold text-slate-900 mb-6">Estimating Services That Help You Win More Work</h1>
+          <p class="text-xl text-slate-600 leading-relaxed">
+            Every service is built around one goal: helping you submit accurate, competitive bids—on time.
+            Whether you need a one-off takeoff or dedicated estimating support, we adapt to your workflow and your preferred software.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Object.entries(SERVICES_CONTENT).map(([slug, service]: [string, any]) => (
+            <a href={`/services/${slug}`} class="block">
+              <div class="p-6 border border-slate-200 rounded-lg hover:border-primary hover:shadow-md transition-all cursor-pointer bg-white group">
+                <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">{service.title}</h3>
+                <p class="text-slate-600 line-clamp-2">{service.subhead}</p>
+                <div class="mt-4 flex items-center text-primary font-medium text-sm">
+                  Learn more
+                  <svg class="w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
