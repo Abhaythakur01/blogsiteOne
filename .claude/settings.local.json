@@ -12,7 +12,8 @@
       "Bash(node -e:*)",
       "WebFetch(domain:astro-blog-five-zeta.vercel.app)",
       "Bash(dir:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(npx astro build:*)"
     ]
   }
 }
